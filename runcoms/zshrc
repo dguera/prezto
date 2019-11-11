@@ -11,3 +11,43 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+export EDITOR="subl"
+
+# File search functions
+function f() { find . -iname "*$1*" ${@:2} }
+function r() { grep "$1" ${@:2} -R . }
+
+# Create a folder and move into it in one command
+function mkcd() { mkdir -p "$@" && cd "$_"; }
+
+# Usage: compresspdf [input file] [output file] [screen*|ebook|printer|prepress]
+compresspdf() {
+    gs -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH -dPDFSETTINGS=/${3:-"screen"} -dCompatibilityLevel=1.4 -sOutputFile="$2" "$1"
+}
+
+# Making Git easy
+function lazygit() {
+    git add .
+    git commit -a -m "$1"
+    git push
+}
+
+# Aliases
+alias cppcompile='c++ -std=c++11 -stdlib=libc++'
+alias g='git'
+alias bu='brew update; brew upgrade; brew cleanup; brew doctor'
+alias cu='conda activate; conda update --all --yes; conda clean --all --yes --quiet; conda deactivate'
+alias wa='conda activate wa.sh; wash; conda deactivate'
+alias blobby='aws --endpoint-url https://blob.mr3.simcloud.apple.com --cli-read-timeout 300'
+
+
+# Load Conda
+source /usr/local/anaconda3/etc/profile.d/conda.sh
+
+# The fuck
+eval $(thefuck --alias)
+
+# Spaceship settings
+export SPACESHIP_VI_MODE_SHOW=false
+export SPACESHIP_EXIT_CODE_SHOW=true
+export SPACESHIP_TIME_SHOW=true
